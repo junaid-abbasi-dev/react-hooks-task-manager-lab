@@ -3,10 +3,11 @@ import { TaskContext } from "../context/TaskContext";
 
 function TaskForm() {
   const [taskName, setTaskName] = useState("");
-
+  const { addTask } = useContext(TaskContext);
   function handleSubmit(e) {
     e.preventDefault();
     if (taskName.trim() === "") return;
+    addTask(taskName)
     setTaskName("");
   }
 
