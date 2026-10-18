@@ -17,9 +17,19 @@ export function TaskProvider({ children }) {
         ])
     }
     function toggleCompleted(id) {
-        setTasks(current => current.map(task =>
-            task.id === id ? { ...task, completed: !task.completed } : task
+        const task = tasks.find(item => item.id === id)
+        if (!task) return
+        const completed = !task.completed
+
+        setTasks(current => current.map(item =>
+            item.id === id ? { ...item, completed } : item
         ))
+
+        fetch(`http://localhost:6001/tasks/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ completed })
+        })
     }
     return (
         <TaskContext.Provider value={{ tasks, addTask, toggleCompleted }}>
